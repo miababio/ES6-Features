@@ -154,9 +154,65 @@ Rest & Spread Operators
         - As long as you pass/use an array, the contents of the array can be whatever you want
 
 Arrow Functions
-    - 
-    
+    - var people = ['Andrew', 'Mike', 'John', 'Jen'];
 
+      people.forEach(function(name) {
+          console.log(name);
+      });
+
+    - In cases like above, Arrow functions let us replace anonymous functions
+        - Ex: people.forEach((name) => console.log(name));
+            - For arrow functions, you don't need the word 'function' anymore, just te parameters, followed by the '=>' arrow, and then you either have a block of statements, or just one line
+                - Since all we did was console.log this time, we could put it on one line
+        - Both functions are identical
+    - Another thing about arrow functions is that you can make really short functions, if they are one-liners
+        - See Example 6
+            - var add = (a, b) => a + b;
+                - When you have a one line statement, and don't have the curly braces around it, Javascript will automatically make that a return statement
+                    - This is considered an Implicit return
+                    - An Explicit return would look like this -> var add = (a, b) => { return a + b; }
+                        - This one is used for multi-line stuff usually, vs. a one-liner
+    - Another thing about arrow functions is that when you use them, the 'this' keyword doesn't lose it's binding
+        - var person = {
+              name: 'Mike',
+              likes: ['Movies', 'Programming', 'Running'],
+              generateGreeter: function() {
+                  return function() {
+                      console.log(this.name);
+                  }
+              }
+          }
+
+            - As this is right now, this will fail!
+                - "this.name" in the anonymous function does NOT refer to our name property we have made above
+                - The workaround at the time was to create anther variable, set it to 'this', and then use that other variable to get the name
+                    - Ex: var that = this;
+                          return function() {
+                              console.log(that.name);
+                          }
+                          ...
+                          person.generateGreeter()(); // Displays Mike
+
+                    - New way with arrow functions -> See Example 7
+                        - Inside arrow functions, you now have access to the same 'this' binding of the containing function
+    - Also, just a quick note:
+        - printLikes: function() {
+              return () => {
+                  this.likes.forEach((like) => console.log(`${this.name} likes ${like}`));
+              }
+          } 
+
+          - Trying to have "printLikes: () => {...}" DOES NOT WORK
+            - Can't do a double arrow like that I guess (will look into later)
+
+For...of
+    - A new way to iterate over elements in an array
+    - See Example 8
+        - Format -> for(<variable_name> of <array you want to loop over>) {...}
+    - Pretty straightforward
+
+Maps
+    - 
 
 
 
@@ -242,5 +298,51 @@ function greetUsers(...names) {
 greetUsers('Andrew', 'Mike', 'Jen'); // Displays "Hello Andrew", "Hello Mike", "Hello Jen" on separate lines
 
 
-Example 6 - 
+Example 6 - One-Liner Arrow Function
+---------
+// Original function definition
+/* function add(a, b) {
+    return a + b;
+} */
+
+// Arrow Function
+var add = (a, b) => a + b;
+
+console.log(add(3, 9));
+
+
+Example 7 - "This" binding
+---------
+var person = {
+    name: 'Mike',
+    likes: ['Movies', 'Programming', 'Running'],
+    generateGreeter: function() {
+        return () => {
+            console.log(this.name);
+        }
+    }
+};
+
+person.generateGreeter()(); // Displays Mike
+
+
+Example 8 - For...of
+---------
+var locations = [];
+locations.push({
+    name: 'Madison',
+    weather: 75
+});
+
+locations.push({
+    name: 'Sun Prairie',
+    weather: 73
+});
+
+for(let location of locations) {
+    console.log(`It's ${location.weather} in ${location.name}`);    // Displays "It's 75 in Madison" and "It's 73 in Sun Prairie" on separate lines
+}
+
+
+Example 9 -
 ---------
