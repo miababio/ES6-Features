@@ -1,0 +1,246 @@
+                                    NOTES
+                                    -----
+                                    
+Getting Setup
+    - ES6 also known as ES2015
+    - Babel
+        - Module that let's us convert our ES6 code into compatible code for Node/browsers (ES5?)
+        - Global install (latest)
+        - NOTE: Because we have a higher version of Node (7.4.0), it already comes built-in with ES6 features, meaning we won't need babel
+            - Still follow along anyways though
+    
+Project Setup
+    - Right now naming convention has been standard (ES1, 2, 3, etc.)
+    - Also called ECMAScript
+    - New way of naming ECMAScript is by year, which is why ES6 is a.k.a ES2015, and so on
+    - babel-presets (deprecated, should use babel-presets-env)
+    - Defaults
+        - One thing we can do now is set a default value for an argument
+        - When a function is called and a parameter isn't passed in, you can give the argument a default value in the called function
+            - Just like C++, VB, etc. (bout time!)
+      
+        - Ex: function sayHello(name = "World") {
+                 console.log("Hello " + name + "!");
+              }
+              sayHello();
+
+        - If you had an earlier version of Node ( <5 ) then you couldn't run this in the terminal normally; It would crash
+            - You would be trying to use an ES6 feature that wasn't built into Node back then
+            - To fix, use Babel to run the code instead of node, like so:
+                - babel-node .\features\default.js --presets es2015 
+            - Works with default Objects as well
+                
+                - Ex: function greetUser (user = {name: "Anonymous"}) {
+                          console.log("Hello " + user.name + "!");
+                      }
+  
+                      greetUser();                  // Displays 'Hello Anonymous!'
+                      greetUser({name: "John"});    // Displays 'Hello John!'
+
+            - To run the babel-node command easier, we can create a config file to do it for us to remove the presets part at least
+                - .babelrc
+                    - Inside, set the presets to ["es2015"]
+                    - NOTE: This is still the deprecated way; Look online on Babel site for new configuration
+                - Now in the Terminal we can just type -> babel-node .\features\default.js and it works the same way as before
+
+Nodemon
+    - Nodemon = "Node Monitoring" (who knew?)
+    - Let's you automatically rerun files once you save a change
+    - Easiest way to start something is "nodemon <file you want>"
+    - Nodemon with Babel
+        - nodemon --exec babel-node ./features/default.js
+        - This will automatically run your file and through babel as well!
+    - You don't have to run Nodemon on a single file, you can use it on projects as well!
+
+Template Strings
+    - console.log("Hello " + name + "!");
+        - Old way -> Needed to concatenate strings to show a variable name, etc.
+    - ES6 way -> Template Strings
+        - Represented by the back tick (`)
+        - We use the '${}' to put Javascript expressions in it
+        - Now, the same line would look like -> console.log(`Hello ${name}!`);
+    - Again, you can use template strings for any Javascript expressions
+        - console.log(`1 + 6 = ${1 + 6}`); // Displays 1 + 6 = 7
+    - You can also print out newlines and spaces
+        - Ex: console.log(`Hey,
+
+              This kind of looks like an email!
+
+              - Mike
+              `);
+
+Const
+    - Short for constant
+    - A const value can't be changed
+        - Ex: const PORT = 3000;
+              PORT = 3001; // Throws Error
+    - Like other languages, you can't have multiple declarations of the same variable name either; It also throws an Error
+        - Ex: const PORT = 3000;
+              var PORT = 3001; // Throws Error
+    - You don't have to use numbers for const-you can use objects as well!
+        - NOTE: Although an Object itself will be constant when declared, an object's attributes are NOT constant, and can STILL BE MODIFIED if you wish
+            - See Example 1
+                - So a reminder, you can't change the variable, but you CAN change an objects' properties
+
+Let
+    - Defines a variable at the block level (if statements, for-loops, etc.)
+    - Without Let
+        - Ex: var x = 0;
+
+            if(true) {
+                var x = 12;
+                console.log(x); // Displays 12
+            }
+    
+            console.log(x);     // Displays 12
+
+            - This is to be expected. We make 'x' in the beginning, and then since 'x' is already defined when we try to declare
+              it in the if statement, x now becomes 12 everywhere
+
+    - With Let
+        - Ex: var x = 0;
+
+            if(true) {
+                let x = 12;
+                console.log(x); // Displays 12
+            }
+    
+            console.log(x);     // Displays 0
+
+            - This is the power of let. The 'x' variable declared by let is only visible/known within the if statement.
+              That's why the outer 'x' still remains - when we get out of the if block
+
+    - var variables in a function are known/available everywhere, regardless of where it's made
+    - If you use 'let' on the Global level, there is no block/scope level, so it acts the same way as var-you can access that variable anywhere
+        - It's only really effective at the block level
+    - Let with a For-Loop
+        - See Example 2
+    - Let with a function
+        - See Example 3
+            - Note: Even though let is declared in the genCallback block, INNER function still have access to that variable; anything OUTSIDE the outer
+              block does NOT
+                - In this case, 'var' would've done the same thing, so in this case, they are both fine
+
+Rest & Spread Operators
+    - Rest/Spread deal with using arrays mostly
+    - Here we have a basic add function
+        - function add(a, b) {
+             return a + b;
+          }
+    - Right now, there's nothing special about it
+    - Spread let's us "spread out" an array's contents, so we can pass in our two arguments using one array
+        - See Example 4
+            - add(...numbers)
+                - The format for spread is an ellipses, followed by either an array after the dots (...[]), or a variable name instead (...numbers)
+                - This means to take the contents of numbers, and apply them to the add function
+        - We can also use the spread operator when creating an array
+
+            - Ex: var groupA = [33, 99];
+                  var groupB = [11];
+                  var unified = [0, ...groupA, ...groupB, 100];  
+                  console.log(unified); // Displays [ 0, 33, 99, 11, 100 ]
+
+        - We can use Array methods and pass in the spread operator as well
+            - Ex: unified.push(...[55, 33]); // Now whole array displays [ 0, 33, 99, 11, 100, 55, 33 ]
+
+    - Rest (rest params) are used inside of your function definition
+        - See Example 5 
+            - We are able to pass in all of those names separately, (instead of passing an array) because of rest params
+            - Using the "...names" parameter, we're able to pass in all of our arguments as an array
+        - You can have other arguments before the array
+            - Ex: function greetUsers(group, ...names) {...}
+                - This means that the first argument will be set to 'group', and then every subsequent argument will be added to the names array
+    - Remember, Rest and Spread dont have to work for just numbers; They can be used for Strings, Objects, etc. as well
+        - As long as you pass/use an array, the contents of the array can be whatever you want
+
+Arrow Functions
+    - 
+    
+
+
+
+
+
+
+
+                                  Examples
+                                  --------
+                            
+Example 1 - Const with Objects
+---------
+const CONFIG = {
+    PORT: 3000
+};
+
+console.log(CONFIG); // Displays { PORT: 3000 }
+CONFIG.PORT = 3001;
+console.log(CONFIG); // Displays { PORT: 3001 }
+
+
+Example 2 - Var vs Let -> For-Loop
+---------
+
+With var
+--------
+for(var i = 0; i < 3; i++)
+{
+    console.log(`For loop: i = ${i}`);
+    // Displays
+        // For loop: i = 0
+        // For loop: i = 1
+        // For loop: i = 2
+}
+
+console.log(i); // Displays 3
+
+With let
+--------
+for(let i = 0; i < 3; i++)
+{
+    console.log(`For loop: i = ${i}`);
+    // Displays
+        // For loop: i = 0
+        // For loop: i = 1
+        // For loop: i = 2
+}
+
+console.log(i); // Program crashes; 'i' doesn't exist outside the scope!
+
+
+Example 3 - Let with Functions
+---------
+function genCallback() {
+    let name = "Michael"
+    return function() {
+        console.log(`Hello ${name}`);
+    }
+}
+
+genCallback()(); // Displays 'Hello Michael'
+
+
+Example 4 - Spread Example
+---------
+function add(a, b) {
+    return a + b;
+}
+
+var numbers = [4, 22];
+
+console.log(add(1, 4));            // Displays 5
+console.log(add(...numbers));      // Displays 26
+
+
+Example 5 - Rest Example
+---------
+function greetUsers(...names) {
+    names.forEach(function(name) {
+        console.log('Hello ' + name);
+    });
+}
+
+greetUsers('Andrew', 'Mike', 'Jen'); // Displays "Hello Andrew", "Hello Mike", "Hello Jen" on separate lines
+
+
+Example 6 - 
+---------
