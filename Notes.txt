@@ -212,8 +212,53 @@ For...of
     - Pretty straightforward
 
 Maps
-    - 
+    - Let's us create key/value pairs, and also comes with other utilities that might be preferred to be used over Objects
 
+    - var myMap = new Map();
+        - Creates an empty map
+
+    - myMap.set('name', 'Mike');
+        - 'set' adds a key/value pair to the map
+            - Similar to HashMap.put() in Java
+
+    - myMap.get('name')
+        - Gets the value from the map, based on the key
+
+    - myMap.has('age')
+        - 'has' goes through the map and checks to see if we have this key in it. If we do, it returns true. If not, it returns false
+
+    - myMap.delete('name');
+        - Removes a key/value from the map, based on the key
+
+    - myMap.clear();
+        - Removes everything from the map
+
+    - myMap.size
+        - Returns the size of the map
+
+    - So why would we use this over an Object?
+        - For one, Map has various utilities out of the box, compared to an Object (get, set, clear, size, etc.)
+        - When you create an Object, the keys HAVE to be strings; Map keys can be ANYTHING (Objects, booleans, numbers, etc.)
+            - See Example 9
+    - Sometimes, if we have multiple stuff in our map, we want to do something with it, such as printing everything in it all at once
+    - We can do so in a couple ways:
+        - 1. Use the 'spread' operation
+
+            - Ex: var myMap = new Map();
+                  myMap.set(1, 'Mike');
+                  myMap.set(2, 'Jack');
+                  myMap.set(3, 'Ben');
+                  console.log([...myMap]); // Displays [ [ 1, 'Mike' ], [ 2, 'Jack' ], [ 3, 'Ben' ] ]
+
+                - You get an array of arrays; In other words, you get an array with each key/value pair as an array
+                - Now you could do a forEach and loop over everything and use it that way
+
+        - 2. Use the keys() and values() methods
+            - Ex: console.log(myMap.keys());   // Displays -> MapIterator { 1, 2, 3 }
+            - Ex: console.log(myMap.values()); // Displays -> MapIterator { 'Mike', 'Jack', 'Ben' }
+
+Sets
+    - 
 
 
 
@@ -344,5 +389,12 @@ for(let location of locations) {
 }
 
 
-Example 9 -
+Example 9 - Maps: Using other key types
 ---------
+var user = {name: 'Mike'};
+myMap.set(user, 'Madison');
+console.log(myMap.get(user)); // Displays 'Madison'
+
+
+Example 10 -
+----------
