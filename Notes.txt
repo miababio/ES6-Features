@@ -185,7 +185,7 @@ Arrow Functions
 
             - As this is right now, this will fail!
                 - "this.name" in the anonymous function does NOT refer to our name property we have made above
-                - The workaround at the time was to create anther variable, set it to 'this', and then use that other variable to get the name
+                - The workaround at the time was to create another variable, set it to 'this', and then use that other variable to get the name
                     - Ex: var that = this;
                           return function() {
                               console.log(that.name);
@@ -258,9 +258,44 @@ Maps
             - Ex: console.log(myMap.values()); // Displays -> MapIterator { 'Mike', 'Jack', 'Ben' }
 
 Sets
+    - Has built-in similar methods to Map
+    - Maps we store key, value pairs. With Sets however, we just store the value
+        - It's similar to an array
+        - The difference between sets and arrays (other than the methods) is that Sets CANNOT have the same value twice
+            - In other words, sets only let you store unique values
+
+    - var chatRooms = new Set();
+        - Creates an empty Set
+
+    - chatRooms.add('Runners');
+        - Adds "Runners" to the set. If you tried adding it again, it wouldn't work
+
+    - chatRooms.size;
+        - Returns the current size of the Set
+
+    - chatRooms.has('Runners')
+        - Has checks to see if a value is in the set. Returns true/false
+
+    - chatRooms.delete('Bikers');
+        - Removes a single element from the set
+
+    - chatRooms.clear();
+        - Removes ALL elements in the set (like a reset)
+
+    - You can convert your set to other data types, just like Maps
+        - To an array
+            - console.log([...chatRooms]); -> Returns [ 'Runners', 'Bikers' ]
+            - Like Maps, you can add any value you want to the Set and it'll print all of it
+                - chatRooms.add({name: 'Mike'});
+                console.log([...chatRooms]); -> Returns [ 'Runners', 'Bikers', { name: 'Mike' } ]
+            - If you wanted to iterate over the SEt, you could do the spread like above, then call forEach on the array from there
+                - With Sets, you can also just call forEach directly on it, w/o having to do any spreads or anything like that
+                    - Ex: chatRooms.forEach(function(chatRoom) {
+                              console.log(`Found chat room: ${chatRoom}`);
+                          }); 
+
+New Object Features
     - 
-
-
 
 
 
