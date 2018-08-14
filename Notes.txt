@@ -295,6 +295,97 @@ Sets
                           }); 
 
 New Object Features
+    - Say you had the following code:
+
+        - var age = 25;
+          var person = {
+              name: 'Mike',
+          };
+    
+        - If you wanted to add age to the person Object, normally, you would add 
+            - age: age
+          to the Object, so it looks like this:
+
+            - var person = {
+                  name: 'Mike',
+                  age: age
+              };
+    
+    - New way to add attributes to an object is just have the name
+        - Only works if the property name matches the variable name
+        - For Ex: Instead of having 'age: age' like before, we could just put 'age' (looks like this -> person = {name: 'Mike', age})
+        - This also works for functions too!
+
+            - function printHello() {
+                  console.log(`Hello!`);
+              }
+                  
+  
+              var person = {
+                  name: 'Mike',
+                  age,
+                  printHello
+              };
+
+    - Another new thing we can do -> Dynamic Property Names
+        - In the past, we weren't able to generate a property name based on variables. Now we can!
+        - The syntax is -> [<any kind of computation>]: <value>
+            - See Example 10
+                - You could also use other variables as well
+                    - Ex: ['hello' + (age + 2)]: 'I am here'
+                          console.log(person.hello27); // Displays "I am here"
+
+    - Last new thing we can do -> Define methods using shorthand
+    - In the past, if we were going to add a method to an object, we needed to do it like so:
+
+        - var person = {
+              printAge: function() {
+                  console.log(this.age);
+              }
+          };
+
+    - Now for the shorthand, we don't need the colon or function keyword. It looks like this now:
+
+        - var person = {
+              printAge() {
+                  console.log(this.age);
+              }
+          };
+
+Classes - Part 1
+    - Basic setup is similar to other languages
+
+        - Ex: class Person {
+                constructor(name) {
+                    this.name = typeof name === 'string' ? name : 'Anonymous';
+                }
+                printGreeting() {
+                    console.log(`Hi! I'm ${this.name}!`);
+                }
+                static capitalizeWord(word) {
+                    return word[0].toUpperCase() + word.slice(1);
+                }
+            }
+
+            - You'll notice we don't need to declare a variable right away. We can do "this.<something>" to create it
+            - To use this class, we instantiate it with the "new" keyword
+
+                - Ex: var person1 = new Person('Mike');
+                      person1.printGreeting(); // Displays "Hi! I'm Mike!"
+
+            - Just like regular methods, you can add static methods as well
+                - Static methods don't require you to instantiate the class before you can use it (Like Java, C++, etc.)
+                    - Ex: console.log(Person.capitalizeWord('mike')); // Returns "Mike"
+            - Note: You can also use static methods within your class, but you call it the same way you would before-without instantiating
+
+                - Ex: constructor(name) {
+                          this.name = typeof name === 'string' ? Person.capitalizeWord(name) : 'Anonymous';
+                      }
+                      ...
+                      var person1 = new Person('mike');
+                      person1.printGreeting(); // Displays "Hi! I'm Mike!"
+
+Classes - Part 2
     - 
 
 
@@ -431,5 +522,14 @@ myMap.set(user, 'Madison');
 console.log(myMap.get(user)); // Displays 'Madison'
 
 
-Example 10 -
+Example 10 - Dynamic Property Names
+----------
+var person = {
+    ['hello' + (3 + 2)]: 'I am here'
+};
+
+console.log(person.hello5); // Displays "I am here"
+
+
+Example 11 -
 ----------
