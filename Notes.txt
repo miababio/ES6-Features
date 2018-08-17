@@ -386,7 +386,52 @@ Classes - Part 1
                       person1.printGreeting(); // Displays "Hi! I'm Mike!"
 
 Classes - Part 2
+    - We can add custom getter/setter methods to classes, and objects as well
+    - Right now, looking at out Person class we made before, there are a few issues that we have with it
+        - Say for example, we had the following:
+
+            - var person1 = new Person('mike');
+              person1.name = 'jen';
+              person1.printGreeting(); // Displays "Hi! I'm jen!"
+
+                - 'jen' does not get capitalized, because we only set 'name' in the constructor. If we wanted ot capitalize it, we'd have to call the static method we made on another line
+                    - This can get really tedious if we have to keep doing that everywhere
+            - Using a setter method can fix this
+                - SYNTAX: set <property name> (<argument, usually just val or value>) { ... }
+            - Getter methods have a similar setup
+                - SYNTAX: get <property name> () { ... }
+            - NOTE: When using custom getter/setter methods, you do NOT have access to the property variable internally you're trying to change!
+                - In this case, I can't use 'this.name', like I could in the constructor
+                - The common convention is to use an underscore, followed by the property name instead
+                    - (TODO: See why this is later)
+
+                - Ex: set name (value) {
+                          this._name = Person.capitalizeWord(value);
+                      }
+            - Now, when the constructor is called, our custom setter function gets called for 'name', and when we call printGreeting, the custom getter method for 'name' is called
+                - See Example 11
+            - You can add getters/setters on Objects as well
+                - See Example 12
+
+Classes - Part 3
+    - Subclasses (inheritance)
+    - Syntax: class <Class_Name> extends <Parent_Class>
+        - Ex: class Employee extends Person {}
+            - If you then do -> var person1 = new Employee('mike'); -> Even just doing this and running your code the way you did before, everything works
+                - The subclass will inherit the parent's constructor and class/variables apparently; Look into this later
+    - Let's say we now want to make it so that when you make an Employee, you pass in a name and a job, like so -> var person1 = new Employee('mike', 'Developer');
+    - We can make a constructor() in the Employee class as well
+    - We COULD copy the name code like we did in the Person class, but hat's repeating code
+    - SOLUTION: use the super() method
+        - super() calls the parent class's constructor method, and acts accordingly
+    - Now everything can work as planned, while still adding other customization as well for a specific class
+    - We can also add additional functionality to a method by redefining it in the subclass (printGreeting)
+    - If you still want to call a method from a parent class, even if the method has been overridden, you can use "super" for that as well
+        - See Example 13
+
+Destructuring
     - 
+
 
 
 
@@ -531,5 +576,88 @@ var person = {
 console.log(person.hello5); // Displays "I am here"
 
 
-Example 11 -
+Example 11 - Classes -> Getters/Setters
+----------
+class Person {
+    constructor(name) {
+        this.name = typeof name === 'string' ? name : 'Anonymous';
+    }
+    set name (value) {
+        this._name = Person.capitalizeWord(value);
+    }
+    get name () {
+        return this._name;
+    }
+    printGreeting() {
+        console.log(`Hi! I'm ${this.name}!`);
+    }
+    static capitalizeWord(word) {
+        return word[0].toUpperCase() + word.slice(1);
+    }
+}
+
+var person1 = new Person('mike');
+person1.printGreeting(); // Displays 'Hi! I'm Mike!'
+
+var person2 = new Person();
+person2.printGreeting(); // Displays 'Hi! I'm Anonymous!'
+
+
+Example 12 - Objects -> Getters/Setters
+----------
+var obj = {
+    set age (val) {
+        this._age = val + 10;
+    },
+    get age() {
+        return this._age;
+    }
+};
+obj.age = 21;
+console.log(obj.age); // Displays 31
+
+
+Example 13 - Classes and Inheritance
+----------
+class Person {
+    constructor(name) {
+        this.name = typeof name === 'string' ? name : 'Anonymous';
+    }
+    set name (value) {
+        this._name = Person.capitalizeWord(value);
+    }
+    get name () {
+        return this._name;
+    }
+    printGreeting() {
+        console.log(`Hi! I'm ${this.name}!`);
+    }
+    static capitalizeWord(word) {
+        return word[0].toUpperCase() + word.slice(1);
+    }
+}
+
+class Employee extends Person {
+    constructor(name, job = 'Unemployed') {
+        super(name);
+        this.job = job;
+    }
+    printGreeting() {
+        console.log(`Hi! I'm ${this.name}, and I am a ${this.job}!`);
+    }
+    callSuperMethod() {
+        super.printGreeting();
+    }
+}
+
+var person1 = new Employee('mike', 'Developer');
+person1.name = 'jen';
+person1.printGreeting();      // Displays "Hi! I'm Jen, and I am a Developer!"
+person1.callSuperMethod();    // Displays "Hi! I'm Jen!"
+
+var person2 = new Person();
+person2.printGreeting();      // Displays "Hi! I'm Anonymous!"
+
+
+Example 14 - 
 ----------
