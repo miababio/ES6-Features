@@ -430,8 +430,39 @@ Classes - Part 3
         - See Example 13
 
 Destructuring
-    - 
+    - Let's you extract values from arrays/objects
+    - var array = ['first', 'second', 'third'];
+        - With destructuring, we can extract the values, and put each value into an individual variable
+    - var [a, b, c] = array;
+        - This assigns 'first' to a, 'second' to b, and 'third' to c, while still keeping the original array variable
+    - console.log(a, b, c); // Displays 'first' 'second' 'third'
+    - You can also ignore items in the array if you wanted
+        - Ex: Say we didn't want the 'second' element
 
+            - var [a, , c] = array; 
+              console.log(a, c); // Displays 'first' 'third'
+
+    - Destructuring objects is very similar, except this time you use '{}', and inside you specify the property(ies) you want from the object
+
+        - Ex: var todo = {
+                  description: 'Watch new ES6 section',
+                  completed: false
+              }
+
+              var {description} = todo;
+              console.log(description); // Displays "Watch new ES6 section"
+
+        - You can also rename the property you want as another variable name
+
+            - Ex: var {description: message} = todo;
+                  console.log(message); // Displays "Watch new ES6 section"
+          
+    - How is destructuring actually helpful?
+        - A good use for destructuring is for function arguments, and function return values
+        - See Example 14
+
+- Babel & ES6 On Heroku
+    - 
 
 
 
@@ -659,5 +690,51 @@ var person2 = new Person();
 person2.printGreeting();      // Displays "Hi! I'm Anonymous!"
 
 
-Example 14 - 
+Example 14 - Destructuring
+----------
+
+    Before Destructuring
+    ====================
+    var todo = {
+        description: 'Watch new ES6 section',
+        completed: false
+    }
+
+    function getTodoStatus(todo) {
+        if(typeof todo.completed === 'boolean') {
+            console.log(`Todo is ${todo.completed ? '' : 'not '}completed.`);
+        }
+        else {
+            console.log('Todo error. Not valid');
+        }
+    }
+
+    getTodoStatus(todo); // Displays 'Todo is not completed.'
+
+    After Destructuring
+    ===================
+    var todo = {
+        description: 'Watch new ES6 section',
+        completed: false
+    }
+
+    function getTodoStatus({completed}) {
+        if(typeof completed === 'boolean') {
+            return [`Todo is ${completed ? '' : 'not '}completed.`]
+        }
+        else {
+            return[undefined, {error: 'INVALID_TODO_ITEM'}]
+        }
+    }
+
+    var [res, err] = getTodoStatus(todo);
+    if(err) {
+        console.log(err.error); // Displays 'INVALID_TODO_ITEM' when hit
+    }
+    else {
+        console.log(res);       // Displays 'Todo is not completed.' when hit
+    }
+
+
+Example 15 - 
 ----------
