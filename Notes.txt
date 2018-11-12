@@ -462,7 +462,14 @@ Destructuring
         - See Example 14
 
 - Babel & ES6 On Heroku
-    - 
+    - git init and npm init, then 'heroku create' to create a new app
+    - Added babel and babel-presets-2015
+    - .babelrc to use "es2015" plugin
+    - babel app/*.js -d dist
+        - Compiles our ES6 code to ES5, and puts it in a "dist" folder (-d = destination)
+    - Make a "start" script in package.json that starts app from the dist folder
+    - Then we just have to commit the changes, then do "git push heroku", and we're done!
+        - You can call 'heroku open' to opn the app
 
 
 
@@ -734,7 +741,3 @@ Example 14 - Destructuring
     else {
         console.log(res);       // Displays 'Todo is not completed.' when hit
     }
-
-
-Example 15 - 
-----------
